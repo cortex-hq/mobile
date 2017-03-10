@@ -1,0 +1,16 @@
+<p>
+  test-list works!
+</p>
+
+<ul>
+  <li *ngFor="let test of tests | async">
+
+    <a [routerLink]="['./', test.id]" class="card--media">
+      <div class="card--media__content">
+        {{ test.title }} <span bp-layout="float-right">#{{test.id}}</span>
+      </div>
+    </a>
+  </li>
+</ul>
+
+<router-outlet></router-outlet>

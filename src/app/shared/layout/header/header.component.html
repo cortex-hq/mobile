@@ -1,0 +1,15 @@
+<header role="banner">
+  <a (click)="navOpen = !navOpen" aria-label="Open menu" class="btn btn-clear">
+    <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+  </a>
+
+  <a [routerLink]="['/']" [attr.tabindex]="navOpen ? -1 : 0" class="logo">CORTEX</a>
+
+  <div [class.open-nav]="navOpen">
+    <div class="menu-overlay" (click)="navOpen = !navOpen"></div>
+    <nav class="nav" (click)="navOpen = !navOpen" [attr.aria-hidden]="!navOpen">
+      <a [routerLink]="['/tests']" class="nav__link" [attr.tabindex]="navOpen ? 0 : -1">Tests</a>
+      <a [routerLink]="['/about']" class="nav__link" [attr.tabindex]="navOpen ? 0 : -1">About</a>
+    </nav>
+  </div>
+</header>
