@@ -3,6 +3,7 @@ module.exports = {
   maximumFileSizeToCacheInBytes: 8388608,
   stripPrefix: 'dist',
   root: 'dist/',
+  cacheId: 'cortex-v0.99',
   staticFileGlobs: [
     'dist/index.html',
     'dist/**/*.js',

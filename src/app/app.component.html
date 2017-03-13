@@ -13,6 +13,7 @@
     </button> CORTEX
     <span class="app-toolbar-filler"></span>
     <!--<button md-button (click)="isDarkTheme = !isDarkTheme">Toggle theme</button>-->
+    <md-icon *ngIf="offline | async" md-tooltip="Offline">cloud_off</md-icon>
   </md-toolbar>
   <div class="app-content" fxFlex>
     <router-outlet ></router-outlet>
