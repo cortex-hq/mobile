@@ -1,5 +1,21 @@
-<cortex-header></cortex-header>
-<main>
-  <router-outlet></router-outlet>
-</main>
-<cortex-footer></cortex-footer>
+<md-sidenav-layout [class.cortex-dark]="isDarkTheme" fxFill>
+  <md-sidenav #sidenav mode="side" class="app-sidenav" >
+      <a md-button [routerLink]="['./']">Home</a>
+      <br />
+      <a md-button [routerLink]="['./', 'tests']">Tests</a>
+      <br />
+      <a md-button [routerLink]="['./', 'about']">About</a>
+      <br />
+  </md-sidenav>
+  <md-toolbar color="primary">
+    <button class="app-icon-button" (click)="sidenav.toggle()">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button> CORTEX
+    <span class="app-toolbar-filler"></span>
+    <!--<button md-button (click)="isDarkTheme = !isDarkTheme">Toggle theme</button>-->
+  </md-toolbar>
+  <div class="app-content" fxFlex>
+    <router-outlet ></router-outlet>
+  </div>
+
+</md-sidenav-layout>
