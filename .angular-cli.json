@@ -21,7 +21,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cortex",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

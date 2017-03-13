@@ -6,10 +6,11 @@ import { TestListComponent } from './test-list/test-list.component';
 import { TestDetailsComponent } from './test-details/test-details.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   // { path: 'tests', component: TestListComponent, children: [
   //   { path: ':id', component:  TestDetailsComponent }
   // ]},
+  { path: 'home', component: HomeComponent },
   { path: 'tests', component: TestListComponent},
   { path: 'tests/:id', component:  TestDetailsComponent },
   { path: 'about', component: AboutComponent }
