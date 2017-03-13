@@ -2,8 +2,14 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.1.
 
+## PWA support
+Offline support is configured with sw-precache and dedicated service worker
+
+> To test offline, you first need to build the application `npm run build` and then prepare the application for caching with `npm run sw`. You can then run a `live-server` command right from the dist folder. Finally, you can check the offline checkbox from your browser dev tools under `Application \ Service Workers`
+
 ## Development server
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+You can also run the command `npm run start`
 
 ## Code scaffolding
 
