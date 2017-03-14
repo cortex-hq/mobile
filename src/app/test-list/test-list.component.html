@@ -2,7 +2,32 @@
   test-list works!
 </p>
 
-<md-grid-list cols="2" [rowHeight]="ratio" gutterSize="4px">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutWrap>
+  <md-card *ngFor="let test of tests | async" class="test-card">
+     <md-card-header>
+      <img class="mat-card-avatar" src="//lorempixel.com/50/50/">
+      <md-card-title>{{test.title}}</md-card-title>
+      <md-card-subtitle>{{test.category}}</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+      <p>This is supporting text.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad</p>
+    </md-card-content>
+    <md-card-actions>
+      <a md-button [routerLink]="['./', test.id]">
+        <md-icon mat-grid-avatar>keyboard_arrow_right</md-icon>
+        Take the test
+      </a>
+      <a md-button >
+        <md-icon mat-grid-avatar>share</md-icon>
+        Share
+      </a>
+    </md-card-actions>
+  </md-card>
+</div>
+
+<!--<md-grid-list cols="2" [rowHeight]="ratio" gutterSize="4px">
   <md-grid-tile *ngFor="let test of tests | async" [style.background]="'lightblue'" >
     <md-grid-tile-header>
       <md-icon md-grid-avatar>info_outline</md-icon>
@@ -21,7 +46,8 @@
       </a>
     </md-grid-tile-footer>
   </md-grid-tile>
-</md-grid-list>
+</md-grid-list>-->
+
 
 
 <!--md-button [routerLink]="['./', test.id]"-->
