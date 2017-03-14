@@ -1,0 +1,41 @@
+@import './_config';
+
+body {
+  background-color: $color-body;
+}
+
+main {
+  display: flex;
+  min-height: 93vh;
+  flex-direction: column;
+}
+
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+
+.scrollbar-measure {
+	width: 100px;
+	height: 100px;
+	overflow: scroll;
+	position: absolute;
+	top: -9999px;
+}
+
+@media (max-width: 350px) {
+  [layout^="row"] > .col, [layout^="row"] > [layout^="col"] {
+    padding: 0 4px 8px 4px;
+  }
+}
+
+$margin-default: 8px;
