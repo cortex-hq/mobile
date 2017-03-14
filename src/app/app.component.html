@@ -1,4 +1,4 @@
-<md-sidenav-layout [class.cortex-dark]="isDarkTheme" fxFill>
+<md-sidenav-container [class.cortex-dark]="isDarkTheme" fullscreen>
   <md-sidenav #sidenav mode="side" class="app-sidenav" >
       <a md-button [routerLink]="['./']">Home</a>
       <br />
@@ -12,11 +12,10 @@
       <i class="material-icons app-toolbar-menu">menu</i>
     </button> CORTEX
     <span class="app-toolbar-filler"></span>
-    <!--<button md-button (click)="isDarkTheme = !isDarkTheme">Toggle theme</button>-->
+
     <md-icon *ngIf="offline | async" md-tooltip="Offline">cloud_off</md-icon>
   </md-toolbar>
   <div class="app-content" fxFlex>
     <router-outlet ></router-outlet>
   </div>
-
-</md-sidenav-layout>
+</md-sidenav-container>
