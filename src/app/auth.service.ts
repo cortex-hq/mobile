@@ -6,18 +6,20 @@ declare var Auth0Lock: any;
 @Injectable()
 export class AuthService {
   // configure Auth0
+  // details for languageDictionary entries here: https://github.com/auth0/lock/blob/master/src/i18n/en.js
   lock = new Auth0Lock('Y9Jud1zCPhHie8pjQdBI2sQumJWG9f3d', 'cortex.eu.auth0.com', {
     theme: {
       primaryColor: '#31324F'
     },
     languageDictionary: {
-      title: 'CORTEX'
+      title: 'CORTEX',
+      signUpTerms: 'vous acceptez les conditions d\'utilisation de Cortex'
     },
     mustAcceptTerms: true
   });
 
   constructor() {
-    let _this = this;
+    const _this = this;
     this.lock.on('authenticated', (authResult) => {
       // console.log('authenticated');
       // console.log(authResult);
