@@ -14,4 +14,5 @@ export const routes: Routes = [
   { path: 'tests', component: TestListComponent},
   { path: 'tests/:id', component:  TestDetailsComponent },
   { path: 'about', component: AboutComponent }
+
 ];
