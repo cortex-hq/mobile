@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   public logout() {
-    localStorage.removeItem('id_token');
+    [ 'id_token', 'userName'].forEach(k => localStorage.removeItem(k));
   }
 
   public getUserName() {
