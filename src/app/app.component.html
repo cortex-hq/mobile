@@ -12,6 +12,11 @@
       <i class="material-icons app-toolbar-menu">menu</i>
     </button> CORTEX
     <span class="app-toolbar-filler"></span>
+    <button md-button (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
+    <img *ngIf="auth.authenticated()" [src]="auth.getProfilePicture()" class="cortex-avatar"/>
+    <h3 *ngIf="auth.authenticated()">{{auth.getUserName()}}</h3>
+    <button md-button (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
+    <!--<button md-button (click)="isDarkTheme = !isDarkTheme">Toggle theme</button>-->
 
     <md-icon *ngIf="offline | async" md-tooltip="Offline">cloud_off</md-icon>
   </md-toolbar>
