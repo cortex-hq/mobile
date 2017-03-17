@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TestListComponent implements OnInit {
   tests: Observable<ITest[]>;
 
-  constructor(private _testService: TestService, private router: Router) {
+  constructor(private _testService: TestService, private _router: Router) {
      this.tests =  this._testService.tests;
   }
 
@@ -20,7 +20,7 @@ export class TestListComponent implements OnInit {
   }
 
   goToTest(id: string) {
-    this.router.navigate(['./', id]);
+    this._router.navigate(['./', id]);
   }
 
 }
