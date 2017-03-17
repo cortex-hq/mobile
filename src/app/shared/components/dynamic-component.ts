@@ -1,10 +1,11 @@
 import { Component, Input, ViewContainerRef, ViewChild, ReflectiveInjector, ComponentFactoryResolver } from '@angular/core';
 
 import { BalanceTestComponent } from '../../tests/balance-test/balance-test.component';
+import { GenericTestComponent } from '../../tests/generic-test/generic-test.component';
 
 @Component({
   selector: 'cortex-dynamic-component',
-  entryComponents: [ BalanceTestComponent ],
+  entryComponents: [ BalanceTestComponent, GenericTestComponent ],
   template: `<div #dynamicComponentContainer></div>`
 })
 export class DynamicComponent {
