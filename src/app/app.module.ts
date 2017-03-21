@@ -22,6 +22,9 @@ import { AboutComponent } from './about/about.component';
 import { BalanceTestComponent } from './tests/balance-test/balance-test.component';
 import { GenericTestComponent } from './tests/generic-test/generic-test.component';
 
+import 'hammerjs';
+import 'gyronorm';
+
 @NgModule({
   declarations: [
     AppComponent,

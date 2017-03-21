@@ -1,3 +1,13 @@
 <p>
   balance-test works!
+  {{_angleFromFlat}}
+  {{ _computed | json }}
 </p>
+
+<a md-button (click)="start()">START</a>
+
+<canvas #spiritLevel
+    [attr.width]="_width"
+    [attr.height]="_height"></canvas>
+<!--<p>{{data | json}}</p>-->
+
