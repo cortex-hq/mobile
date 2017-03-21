@@ -98,7 +98,6 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
     this._radius = Math.min(this._width, this._height) * .15;
     this._isHorizontal = Math.abs(<number>window.orientation) === 90;
 
-
   }
 
   private draw(data: IGyronormData) {
@@ -225,49 +224,9 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
         });
       });
     });
-
-
-
-    // this.normalizedGyro.init({
-    //   frequency: 50,
-    //   gravityNormalized: true,
-    //   orientationBase: 'world',
-    //   decimalCount: 2,
-    //   logger: null,
-    //   screenAdjusted: false
-    // }).then(() => {
-
-    //   this.normalizedGyro.start((data) => {
-    //     console.log(`alpha: ${data.do.alpha} beta: ${data.do.beta} gamma: ${data.do.gamma}`);
-    //     console.log(`x: ${data.dm.x} y: ${data.dm.y} z: ${data.dm.z}`);
-    //     this.data = data;
-
-
-    //   });
-    // });
-    // if (!window.orientation) {
-    //   console.log(`does not support orientation`);
-    //   return;
-    // }
-
-    //  this.movementData = Observable.fromEvent(window, 'deviceorientation').map((e: DeviceOrientationEvent) => {
-    //     return {
-    //       x: e.beta,
-    //       y: e.gamma,
-    //       z: e.alpha,
-    //       angleFromFlat: Math.round(Math.sqrt(Math.pow(e.gamma, 2) + Math.pow(e.beta, 2)))
-    //     };
-    //   });
-
-    //   this.movementData.subscribe(d => {
-    //     console.log(d);
-    //   });
   }
 
   ngOnDestroy() {
-    // if (this.movementDataSubscription) {
-    //   setTimeout(() => this.movementDataSubscription.unsubscribe(), 0);
-    // }
     if (this.normalizedGyro && this.normalizedGyro.isRunning()) {
       this.normalizedGyro.end();
     }
