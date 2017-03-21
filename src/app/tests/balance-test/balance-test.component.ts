@@ -66,11 +66,11 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('spiritLevel') spiritLevel: ElementRef;
 
   constructor() {
-    this._width = window.outerWidth * window.devicePixelRatio * .75;
-    this._height = window.outerHeight * window.devicePixelRatio * .75;
   }
 
   start() {
+    this._width = window.outerWidth * window.devicePixelRatio * .75;
+    this._height = window.outerHeight * window.devicePixelRatio * .75;
 
     // TODO: subscribe to fullscreen exit and unsubscribe to movementdata observer
     this.spiritLevel.nativeElement.webkitRequestFullScreen();
@@ -79,13 +79,36 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(r);
     });
 
-    this.movementData.subscribe(data => {
+    const subscription = this.movementData.subscribe(data => {
       this.draw(data);
       console.log(`Compass heading: ${data.do.alpha}`);
+    });
+
+    Observable.merge(
+      Observable.fromEvent(window, 'fullscreenchange'),
+      Observable.fromEvent(window, 'mozfullscreenchange'),
+      Observable.fromEvent(window, 'webkitfullscreenchange')
+    ).map(() => {
+      return (document.fullscreenElement ||
+              document.webkitFullscreenElement ||
+              (<any>document).mozFullScreenElement ||
+              (<any>document).msFullscreenElement) ? true : false;
+    })
+    .filter(d => !d) // only interested in fullscreen-off event
+    .subscribe((d: boolean) => {
+      console.log(`subscribed: ${d}`);
+          this._height = 0;
+          this._width = 0;
+
+          subscription.unsubscribe();
     });
   }
 
   ngAfterViewInit() {
+    if (!window.orientation) {
+      console.log('orientation not supported');
+    }
+
     this.context = this.spiritLevel.nativeElement.getContext('2d');
 
     this.context.font = '100 100pt "Helvetica Neue"';
