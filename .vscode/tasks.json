@@ -10,6 +10,22 @@
         {
             "taskName": "build",
             "args": ["run", "build"]
+        },
+        {
+          "taskName": "package:prod",
+          "args": [ "run", "package:prod" ]
+        },
+        {
+          "taskName": "start",
+          "args": [ "run", "start" ]
+        },
+        {
+          "taskName": "sw",
+          "args": [ "run", "sw" ]
+        },
+        {
+          "taskName": "static-serve",
+          "args": [ "run", "static-serve" ]
         }
     ]
 }
