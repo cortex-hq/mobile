@@ -54,6 +54,9 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
 
   _height: number;
   _width: number;
+  _defaultSize = 100;
+
+  _testing: boolean;
 
   private _centerX: number;
   private _centerY: number;
@@ -66,11 +69,14 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('spiritLevel') spiritLevel: ElementRef;
 
   constructor() {
+    this._width = window.outerWidth * window.devicePixelRatio * .9;
+    this._height = window.outerHeight * window.devicePixelRatio * .9;
+
+    this._testing = false;
   }
 
   start() {
-    this._width = window.outerWidth * window.devicePixelRatio * .75;
-    this._height = window.outerHeight * window.devicePixelRatio * .75;
+    this._testing = true;
 
     // TODO: subscribe to fullscreen exit and unsubscribe to movementdata observer
     this.spiritLevel.nativeElement.webkitRequestFullScreen();
@@ -97,9 +103,9 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
     .filter(d => !d) // only interested in fullscreen-off event
     .subscribe((d: boolean) => {
       console.log(`subscribed: ${d}`);
-          this._height = 0;
-          this._width = 0;
-
+          // this._height = this._defaultSize;
+          // this._width = this._defaultSize;
+          this._testing = false;
           subscription.unsubscribe();
     });
   }
