@@ -1,41 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { IGyronormData, IGyronorm, IGyronormOptions } from '../gyro';
 
-import 'gyronorm';
-
-// TODO: extract as a service and abstracts away interaction to switch easily to another implementation
 declare var GyroNorm: any;
-
-interface IGyronormData {
-  do: { alpha: number, beta: number, gamma: number, absolute: boolean };
-  dm: { x: number, y: number, z: number, gx: number, gy: number, gz: number, alpha: number, beta: number, gamma: number };
-  computed?: { inclination: number, rotation: number, isFlat?: boolean };
-}
-interface IGyronormOptions {
-  frequency: number; // ( How often the object sends the values - milliseconds )
-  gravityNormalized: boolean; // ( If the garvity related values to be normalized )
-  orientationBase: 'world' | 'game'; // ( Can be GyroNorm.GAME or GyroNorm.WORLD.
-  // gn.GAME returns orientation values with respect to the head direction of the device.
-  // gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
-  decimalCount: number; // ( How many digits after the decimal point will there be in the return values )
-  logger: (data: any) => void; // ( Function to be called to log messages from gyronorm.js )
-  screenAdjusted: boolean; // ( If set to true it will return screen adjusted values. )
-
-}
-
-interface IGyronorm {
-  end();
-  init(option: IGyronormOptions);
-  isAvailable(type: 'deviceorientation' | 'acceleration' | 'accelerationinludinggravity' | 'rotationrate'): boolean;
-  isRunning(): boolean;
-  normalizeGravity(flag: boolean);
-  setHeadDirection(): boolean;
-  start(callback: (data: IGyronormData) => void);
-  stop();
-  startLogging(logger: (data: any) => void);
-  stopLogging();
-};
+// TODO: extract as a service and abstracts away interaction to switch easily to another implementation
 
 
 @Component({
@@ -44,6 +13,8 @@ interface IGyronorm {
   styleUrls: ['./balance-test.component.scss']
 })
 export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
+  static readonly gyroFrequencyMs = 50;
+
   // movementData: Observable<{ x: number, y: number, z: number, angleFromFlat: number }>;
   movementData: Observable<IGyronormData>;
   // movementDataSubscription: Subscription;
@@ -55,6 +26,10 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   _height: number;
   _width: number;
   _defaultSize = 100;
+
+  _testDuration = 15000; // test duration in ms
+  _countDown = 0;
+  _durationLevel = 0;
 
   _testing: boolean;
 
@@ -78,8 +53,22 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   start() {
     this._testing = true;
 
-    // TODO: subscribe to fullscreen exit and unsubscribe to movementdata observer
-    this.spiritLevel.nativeElement.webkitRequestFullScreen();
+    this._durationLevel = 0;
+    this._countDown = this._testDuration;
+
+    if (this.spiritLevel.nativeElement.requestFullscreen) {
+      this.spiritLevel.nativeElement.requestFullscreen();
+    } else if (this.spiritLevel.nativeElement.mozRequestFullScreen) {
+      this.spiritLevel.nativeElement.mozRequestFullScreen();
+    } else if (this.spiritLevel.nativeElement.webkitRequestFullscreen) {
+      this.spiritLevel.nativeElement.webkitRequestFullscreen();
+    } else if (this.spiritLevel.nativeElement.msRequestFullscreen) {
+      this.spiritLevel.nativeElement.msRequestFullscreen();
+    } else {
+      throw new Error(`no api found to get to full screen`);
+    }
+
+
     // lock orientation to portrait
     (<any>window.screen).orientation.lock('portrait').then(r => {
       console.log(r);
@@ -90,24 +79,48 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log(`Compass heading: ${data.do.alpha}`);
     });
 
+    // count down
+    const countdown = Observable.timer(1000, 1000).subscribe(() => {
+      this._countDown -= 1000;
+    });
+
+    // triggers when test duration is over
+    Observable.timer(this._testDuration).subscribe(() => {
+      const doc = <any>document;
+      // timer ellapsed exit fullscreen mode
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.webkitCancelFullScreen) {
+        doc.webkitCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      } else {
+        throw new Error(`no api found to exit full screen`);
+      }
+      if (countdown) {
+        countdown.unsubscribe();
+      }
+    });
+
+    // react to fullscreen off
     Observable.merge(
       Observable.fromEvent(window, 'fullscreenchange'),
       Observable.fromEvent(window, 'mozfullscreenchange'),
       Observable.fromEvent(window, 'webkitfullscreenchange')
-    ).map(() => {
+    ).map((data) => {
       return (document.fullscreenElement ||
-              document.webkitFullscreenElement ||
-              (<any>document).mozFullScreenElement ||
-              (<any>document).msFullscreenElement) ? true : false;
+        document.webkitFullscreenElement ||
+        (<any>document).mozFullScreenElement ||
+        (<any>document).msFullscreenElement) ? true : false;
     })
-    .filter(d => !d) // only interested in fullscreen-off event
-    .subscribe((d: boolean) => {
-      console.log(`subscribed: ${d}`);
-          // this._height = this._defaultSize;
-          // this._width = this._defaultSize;
-          this._testing = false;
-          subscription.unsubscribe();
-    });
+      .filter(d => !d) // only interested in fullscreen-off event
+      .subscribe((d: boolean) => {
+        console.log(`subscribed: ${d}`);
+        this._testing = false;
+        subscription.unsubscribe();
+      });
   }
 
   ngAfterViewInit() {
@@ -115,6 +128,7 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
       console.log('orientation not supported');
     }
 
+    // setup canvas
     this.context = this.spiritLevel.nativeElement.getContext('2d');
 
     this.context.font = '100 100pt "Helvetica Neue"';
@@ -131,9 +145,6 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private draw(data: IGyronormData) {
     return new Promise((resolve, reject) => {
-      // console.log(`o alpha: ${data.do.alpha} o beta: ${data.do.beta} o gamma: ${data.do.gamma} o absolute: ${data.do.absolute}` );
-      // console.log(`m alpha: ${data.dm.alpha} m beta: ${data.dm.beta} m gamma: ${data.dm.gamma}` );
-      // console.log(`      x: ${data.dm.x}          y: ${data.dm.y}          z: ${data.dm.z}` );
       let x: number = data.do.beta;
       let y: number = data.do.gamma;
       const z: number = data.do.alpha;
@@ -153,19 +164,19 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
 
       let x1: number, x2: number, y1: number, y2: number;
 
-
-
       this.context.fillStyle = 'black';
       this.context.fillRect(0, 0, this._width, this._height);
 
-
       // if we are withing x degrees, snap to _zeroColor
-      if (angle === 0) {
+      // if (angle === 0) {
+      if (angle <= 1) {
         if (this._timeAtZero < 0) {
           this._timeAtZero = 0;
+          this._durationLevel = 0;
         } else {
           this._timeAtZero++;
           this._timeAtZero = Math.min(this._timeAtZero, this._zeroTransitionTime);
+          this._durationLevel += BalanceTestComponent.gyroFrequencyMs / 1000;
         }
 
         x1 = x2 = y1 = y2 = 0;
@@ -185,7 +196,7 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
         y2 = -y1;
       }
 
-      const isZero = [ x1, x2, y1, y2, angle ].reduce((a, b) => (a === b) ? a : NaN) === 0;
+      const isZero = [x1, x2, y1, y2, angle].reduce((a, b) => (a === b) ? a : NaN) === 0;
       // console.log(`isZero: ${isZero}`);
       // clear
       this.context.globalCompositeOperation = 'source-over';
@@ -219,12 +230,26 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
       const halfWidth = this._width / 2;
       const halfHeight = this._height / 2;
 
+      // draw angular measure text
       this.context.fillStyle = 'white';
-      this.context.translate(halfWidth, halfHeight);
-      this.context.translate(-halfWidth, -halfHeight);
+      // this.context.translate(halfWidth, halfHeight);
+      // // rotate text here
+      // this.context.translate(-halfWidth, -halfHeight);
       this.context.fillText(`${angle}°`, halfWidth, halfHeight);
-      this.context.translate(halfWidth, halfHeight);
-      this.context.translate(-halfWidth, -halfHeight);
+      // this.context.translate(halfWidth, halfHeight);
+      // // rotate text here
+      // this.context.translate(-halfWidth, -halfHeight);
+
+      // draw duration level text
+
+      // this.context.fillStyle = 'white';
+      this.context.fillText(`${Math.round(this._durationLevel)} sec`,
+        halfWidth,
+        this._height / 4);
+
+      this.context.fillText(`${Math.round(this._countDown / 1000)} sec`,
+        halfWidth,
+        this._height * 3 / 4);
 
       resolve();
     });
@@ -236,7 +261,7 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
     this.movementData = Observable.create(observer => {
       // initialize gyro data
       this.normalizedGyro.init({
-        frequency: 50,
+        frequency: BalanceTestComponent.gyroFrequencyMs,
         gravityNormalized: true,
         orientationBase: 'world',
         decimalCount: 2,
