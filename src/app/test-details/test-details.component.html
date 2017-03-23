@@ -1,3 +1,18 @@
-<p>
-  test-details works!
-</p>
+<md-card fullscreen>
+  <md-card-header>
+    <md-card-title>{{test.title}}</md-card-title>
+    <md-card-subtitle>{{test.category}}</md-card-subtitle>
+  </md-card-header>
+  <md-card-content>
+    <cortex-dynamic-component [componentData]="componentData"></cortex-dynamic-component>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button>
+      <md-icon>history</md-icon>My history
+      </button>
+    <button md-button>
+      <md-icon>share</md-icon>
+      Share
+    </button>
+  </md-card-actions>
+</md-card>

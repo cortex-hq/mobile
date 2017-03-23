@@ -1,0 +1,19 @@
+<p>
+  balance-test works!
+  {{_angleFromFlat}}
+  {{ _computed | json }}
+</p>
+
+<a md-button (click)="start()">START</a>
+<div *ngIf="_durationLevel>0">
+  <p>{{ _durationLevel | number }} secondes </p>
+  <p>Soit un score de {{ _durationLevel / (_testDuration/1000) | percent:'1.0-0' }} </p>
+</div>
+
+
+<canvas #spiritLevel
+    [attr.width]="_width"
+    [attr.height]="_height"
+    [hidden]="!_testing"></canvas>
+<!--<p>{{data | json}}</p>-->
+

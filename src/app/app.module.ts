@@ -10,6 +10,7 @@ import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/layout/header/header.component';
 import { FooterComponent } from './shared/layout/footer/footer.component';
+import { DynamicComponent } from './shared/components/dynamic-component';
 
 import { TestService } from './shared/services/test.service';
 
@@ -18,17 +19,26 @@ import { TestListComponent } from './test-list/test-list.component';
 import { TestDetailsComponent } from './test-details/test-details.component';
 import { AboutComponent } from './about/about.component';
 
+import { BalanceTestComponent } from './tests/balance-test/balance-test.component';
+import { GenericTestComponent } from './tests/generic-test/generic-test.component';
+
+import 'hammerjs';
+import 'gyronorm';
+
 @NgModule({
   declarations: [
     AppComponent,
 
     HeaderComponent,
     FooterComponent,
+    DynamicComponent,
 
     HomeComponent,
     AboutComponent,
     TestListComponent,
-    TestDetailsComponent
+    TestDetailsComponent,
+    BalanceTestComponent,
+    GenericTestComponent
   ],
   imports: [
     BrowserModule,
