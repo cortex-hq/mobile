@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Cha
 import { Observable, } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { IGyronormData, IGyronorm, IGyronormOptions } from '../gyro';
+import { TestBase } from '../test-base';
+import { AppInsightsService } from '@markpieszak/ng-application-insights';
 
 declare var GyroNorm: any;
 // TODO: extract as a service and abstracts away interaction to switch easily to another implementation
@@ -12,7 +14,7 @@ declare var GyroNorm: any;
   templateUrl: './balance-test.component.html',
   styleUrls: ['./balance-test.component.scss']
 })
-export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
+export class BalanceTestComponent extends TestBase implements OnInit, OnDestroy, AfterViewInit  {
   static readonly gyroFrequencyMs = 50;
 
   // movementData: Observable<{ x: number, y: number, z: number, angleFromFlat: number }>;
@@ -30,6 +32,7 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   _testDuration = 15000; // test duration in ms
   _countDown = 0;
   _durationLevel = 0;
+  _score = 0;
 
   _testing: boolean;
 
@@ -44,6 +47,8 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('spiritLevel') spiritLevel: ElementRef;
 
   constructor() {
+    super();
+
     this._width = window.outerWidth * window.devicePixelRatio * .9;
     this._height = window.outerHeight * window.devicePixelRatio * .9;
 
@@ -51,6 +56,8 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   start() {
+    this.startTest();
+
     this._testing = true;
 
     this._durationLevel = 0;
@@ -119,6 +126,11 @@ export class BalanceTestComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((d: boolean) => {
         console.log(`subscribed: ${d}`);
         this._testing = false;
+
+        this._score = this._durationLevel / (this._testDuration / 1000);
+
+        this.completeTest(this._score, this._durationLevel);
+
         subscription.unsubscribe();
       });
   }
