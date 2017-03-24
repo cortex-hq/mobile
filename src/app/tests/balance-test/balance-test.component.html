@@ -7,7 +7,7 @@
 <a md-button (click)="start()">START</a>
 <div *ngIf="_durationLevel>0">
   <p>{{ _durationLevel | number }} secondes </p>
-  <p>Soit un score de {{ _durationLevel / (_testDuration/1000) | percent:'1.0-0' }} </p>
+  <p>Soit un score de {{ _score | percent:'1.0-0' }} </p>
 </div>
 
 

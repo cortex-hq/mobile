@@ -31,7 +31,7 @@ export class TestDetailsComponent implements OnInit {
           return t.id === this.testId;
         }).pop();
 
-        let inputs = {
+        const inputs = {
           prop1: 123456,
           prop2: 'this is some text',
           prop3: {
@@ -44,14 +44,16 @@ export class TestDetailsComponent implements OnInit {
           case 'balance':
             this.componentData = {
               component: BalanceTestComponent,
-              inputs: inputs
+              inputs: inputs,
+              test: this.test
             };
             break;
           case 'type1':
           case 'type2':
             this.componentData = {
               component: GenericTestComponent,
-              inputs: inputs
+              inputs: inputs,
+              test: this.test
             };
             break;
           default:
