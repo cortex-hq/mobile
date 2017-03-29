@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { ApplicationInsightsModule, AppInsightsService } from '@markpieszak/ng-application-insights';
+import { ApplicationInsightsModule } from '@markpieszak/ng-application-insights';
 
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
@@ -50,8 +50,8 @@ import 'gyronorm';
     MaterialModule.forRoot(),
     FlexLayoutModule.forRoot(),
     ApplicationInsightsModule.forRoot({
-      appID: '896f5703-d4b5-4878-bb4b-979550d36b8f',
-      appName: 'Cortex'
+      instrumentationKey: '896f5703-d4b5-4878-bb4b-979550d36b8f',
+      accountId: 'Cortex'
     })
   ],
   providers: [

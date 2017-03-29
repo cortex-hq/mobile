@@ -46,8 +46,8 @@ export class BalanceTestComponent extends TestBase implements OnInit, OnDestroy,
 
   @ViewChild('spiritLevel') spiritLevel: ElementRef;
 
-  constructor() {
-    super();
+  constructor(appInsights: AppInsightsService) {
+    super(appInsights);
 
     this._width = window.outerWidth * window.devicePixelRatio * .9;
     this._height = window.outerHeight * window.devicePixelRatio * .9;

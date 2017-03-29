@@ -2,22 +2,19 @@ import { AppInsightsService } from '@markpieszak/ng-application-insights';
 import { ITest } from '../shared/interfaces/iTest';
 
 export abstract class TestBase {
+  static readonly TEST_IN_PROGRESS = 'TEST-IN-PROGRESS';
+
   test: ITest;
-  constructor() {
+  constructor(protected appInsights: AppInsightsService) {
 
   }
 
   protected startTest() {
-    AppInsightsService.trackEvent('start-test', {
-      id: this.test.id,
-      title: this.test.title,
-      category: this.test.category,
-      type: this.test.type
-    });
+    this.appInsights.startTrackEvent(TestBase.TEST_IN_PROGRESS);
   }
 
   protected completeTest(score: number, duration: number) {
-    AppInsightsService.trackEvent('start-test', {
+    this.appInsights.stopTrackEvent(TestBase.TEST_IN_PROGRESS, {
       id: this.test.id,
       title: this.test.title,
       category: this.test.category,

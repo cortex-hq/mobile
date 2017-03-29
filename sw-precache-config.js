@@ -3,6 +3,7 @@ module.exports = {
   maximumFileSizeToCacheInBytes: 8388608,
   stripPrefix: 'dist',
   root: 'dist/',
+  verbose: true,
   cacheId: 'cortex-v0.99',
   staticFileGlobs: [
     'dist/index.html',
@@ -15,7 +16,7 @@ module.exports = {
   runtimeCaching: [
     {
       urlPattern: /\/api\/tests\//,
-      handler: 'networkFirst',
+      handler: 'cacheFirst',
       options: {
         cache: {
           maxEntries: 25,
