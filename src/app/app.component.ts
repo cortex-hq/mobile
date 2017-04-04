@@ -23,6 +23,6 @@ export class AppComponent {
       Observable.fromEvent(window, 'offline').map(() => true)
     );
 
-    appInsightService.init();
+    // appInsightService.init();
   }
 }

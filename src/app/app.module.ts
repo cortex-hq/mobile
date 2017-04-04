@@ -6,6 +6,8 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { AsyncLocalStorageModule } from 'angular-async-local-storage';
+
 import { ApplicationInsightsModule } from '@markpieszak/ng-application-insights';
 
 import { routes } from './app.routes';
@@ -44,6 +46,7 @@ import 'gyronorm';
   ],
   imports: [
     BrowserModule,
+    AsyncLocalStorageModule,
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(routes),

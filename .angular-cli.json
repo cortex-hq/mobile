@@ -11,7 +11,8 @@
         "assets",
         "favicon.ico",
         "manifest.json",
-        "service-worker.js"
+        "service-worker.js",
+        "fallback-images.js"
       ],
       "index": "index.html",
       "main": "main.ts",

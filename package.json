@@ -28,6 +28,7 @@
     "@angular/router": "^3.4.0",
     "@markpieszak/ng-application-insights": "^1.0.0-rc.1",
     "@types/node": "^6.0.68",
+    "angular-async-local-storage": "^1.4.0",
     "angular2-jwt": "^0.1.28",
     "applicationinsights-js": "^1.0.8",
     "auth0-lock": "^10.14.0",

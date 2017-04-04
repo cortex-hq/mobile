@@ -1,3 +1,4 @@
+// https://developers.google.com/web/showcase/2015/service-workers-iowa
 module.exports = {
   navigateFallback: '/index.html',
   maximumFileSizeToCacheInBytes: 8388608,
@@ -5,15 +6,22 @@ module.exports = {
   root: 'dist/',
   verbose: true,
   cacheId: 'cortex-v0.99',
+  importScripts: [
+    'fallback-images.js'
+  ],
   staticFileGlobs: [
     'dist/index.html',
-    'dist/**/*.js',
-    'dist/**/*.css',
-    'dist/assets/fonts/*',
+    'dist/**/*.{js,css}',
+    'dist/assets/images/**/*.{png,jpg}',
+    'dist/assets/fonts/**',
     'dist/manifest.json',
     'dist/favicon.ico'
   ],
   runtimeCaching: [
+    // {
+    //   urlPattern: /\/\/lorempixel.com\/*/,
+    //   handler: 'networkFirst'
+    // },
     {
       urlPattern: /\/api\/tests\//,
       handler: 'cacheFirst',
@@ -22,6 +30,17 @@ module.exports = {
           maxEntries: 25,
           name: 'cortex-api-cache'
         }
+      }
+    },
+    {
+      urlPattern: /\/api\/sport*/,
+      handler: 'networkFirst',
+      options: {
+        cache: {
+          maxEntries: 10,
+          name: 'cortex-api-sport'
+        },
+        origin: /\/\/localhost:8080\//
       }
     }
   ]

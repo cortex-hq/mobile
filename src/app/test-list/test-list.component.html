@@ -3,6 +3,25 @@
 </p>
 
 <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap>
+  <md-card>
+    <md-card-header>
+      <md-card-title>Add new sport</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <md-input-container class="demo-full-width">
+        <input mdInput #newSportId placeholder="id" >
+      </md-input-container>
+      <md-input-container class="label">
+        <input mdInput #newSportLabel placeholder="label" >
+      </md-input-container>
+    </md-card-content>
+    <md-card-actions>
+      <a md-button (click)="createSport()">
+        <md-icon mat-grid-avatar>create</md-icon>
+        Create
+      </a>
+    </md-card-actions>
+  </md-card>
   <md-card *ngFor="let test of tests | async" class="test-card">
      <md-card-header>
       <img class="mat-card-avatar" src="//lorempixel.com/50/50/">
@@ -25,6 +44,11 @@
       </a>
     </md-card-actions>
   </md-card>
+  <ul>
+    <li *ngFor="let p of sports | async">
+        {{p.id}} - {{p.label}}
+    </li>
+  </ul>
 </div>
 
 <!--<md-grid-list cols="2" [rowHeight]="ratio" gutterSize="4px">
