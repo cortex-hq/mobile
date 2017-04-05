@@ -3,12 +3,12 @@ import { ITest } from '../shared/interfaces/iTest';
 
 export abstract class TestBase {
   test: ITest;
-  constructor() {
 
+  constructor(protected telemetry: AppInsightsService) {
   }
 
   protected startTest() {
-    AppInsightsService.trackEvent('start-test', {
+    this.telemetry.trackEvent('start-test', {
       id: this.test.id,
       title: this.test.title,
       category: this.test.category,
@@ -17,7 +17,7 @@ export abstract class TestBase {
   }
 
   protected completeTest(score: number, duration: number) {
-    AppInsightsService.trackEvent('start-test', {
+    this.telemetry.trackEvent('start-test', {
       id: this.test.id,
       title: this.test.title,
       category: this.test.category,

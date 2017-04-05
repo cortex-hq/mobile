@@ -8,7 +8,6 @@ import { AppInsightsService } from '@markpieszak/ng-application-insights';
 declare var GyroNorm: any;
 // TODO: extract as a service and abstracts away interaction to switch easily to another implementation
 
-
 @Component({
   selector: 'cortex-balance-test',
   templateUrl: './balance-test.component.html',
@@ -46,8 +45,8 @@ export class BalanceTestComponent extends TestBase implements OnInit, OnDestroy,
 
   @ViewChild('spiritLevel') spiritLevel: ElementRef;
 
-  constructor() {
-    super();
+  constructor(protected telemetry: AppInsightsService) {
+    super(telemetry);
 
     this._width = window.outerWidth * window.devicePixelRatio * .9;
     this._height = window.outerHeight * window.devicePixelRatio * .9;
