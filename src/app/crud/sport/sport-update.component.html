@@ -1,0 +1,21 @@
+<form (ngSubmit)="update()" #sportForm="ngForm">
+
+
+        <md-input-container class="demo-full-width">
+            <input mdInput #updateEntitylabel [(ngModel)]="entity.label" placeholder="label" name="label" required >
+        </md-input-container>
+
+        <md-input-container class="demo-full-width">
+            <input mdInput #updateEntityid [(ngModel)]="entity.id" placeholder="id" name="id" required readonly>
+        </md-input-container>
+
+
+    <button md-button (click)="cancel()">
+        <md-icon mat-grid-avatar>cancel</md-icon>
+        Cancel
+    </button>
+    <button md-button type="submit" [disabled]="!sportForm.form.valid">
+        <md-icon mat-grid-avatar>create_new_folder</md-icon>
+        Update
+    </button>
+</form>

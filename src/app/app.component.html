@@ -1,11 +1,11 @@
 <md-sidenav-container [class.cortex-dark]="isDarkTheme" fullscreen>
-  <md-sidenav #sidenav mode="side" class="app-sidenav" >
-      <a md-button [routerLink]="['./']">Home</a>
-      <br />
-      <a md-button [routerLink]="['./', 'tests']">Tests</a>
-      <br />
-      <a md-button [routerLink]="['./', 'about']">About</a>
-      <br />
+  <md-sidenav #sidenav mode="side" class="app-sidenav">
+    <md-list ng-cloak>
+      <md-list-item *ngFor="let nav of navigationItems" [routerLink]="nav.path">
+        <!--<md-icon>input</md-icon>-->
+        <p> {{ nav.data['title'] }}</p>
+      </md-list-item>
+    </md-list>
   </md-sidenav>
   <md-toolbar color="primary">
     <button class="app-icon-button" (click)="sidenav.toggle()">
@@ -13,7 +13,7 @@
     </button> CORTEX
     <span class="app-toolbar-filler"></span>
     <button md-button (click)="auth.login()" *ngIf="!auth.authenticated()">Log In</button>
-    <img *ngIf="auth.authenticated()" [src]="auth.getProfilePicture()" class="cortex-avatar"/>
+    <img *ngIf="auth.authenticated()" [src]="auth.getProfilePicture()" class="cortex-avatar" />
     <h3 *ngIf="auth.authenticated()">{{auth.getUserName()}}</h3>
     <button md-button (click)="auth.logout()" *ngIf="auth.authenticated()">Log Out</button>
     <!--<button md-button (click)="isDarkTheme = !isDarkTheme">Toggle theme</button>-->
@@ -21,6 +21,6 @@
     <md-icon *ngIf="offline | async" md-tooltip="Offline">cloud_off</md-icon>
   </md-toolbar>
   <div class="app-content" fxFlex>
-    <router-outlet ></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </md-sidenav-container>

@@ -1,0 +1,19 @@
+<form (ngSubmit)="create()" #sportForm="ngForm">
+
+
+        <md-input-container class="demo-full-width">
+          <!--[(ngModel)]="entity.label"-->
+            <input mdInput #newEntitylabel [(ngModel)]="entity.label" name="label" placeholder="label" >
+        </md-input-container>
+
+        <md-input-container class="demo-full-width">
+            <!--[(ngModel)]="entity.id"-->
+            <input mdInput #newEntityid [(ngModel)]="entity.id" name="id" placeholder="id" >
+        </md-input-container>
+
+
+    <button md-button type="submit" [disabled]="!sportForm.form.valid">
+        <md-icon mat-grid-avatar>create_new_folder</md-icon>
+            Create
+    </button>
+</form>

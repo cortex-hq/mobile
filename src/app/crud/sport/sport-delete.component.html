@@ -1,0 +1,24 @@
+<form (ngSubmit)="delete()" #sportForm="ngForm">
+    <div>
+        You are about to delete this Sport
+    </div>
+
+
+        <md-input-container class="demo-full-width">
+            <input mdInput #deleteEntitylabel [(ngModel)]="entity.label" placeholder="label" name="label" readonly>
+        </md-input-container>
+
+        <md-input-container class="demo-full-width">
+            <input mdInput #deleteEntityid [(ngModel)]="entity.id" placeholder="id" name="id" readonly>
+        </md-input-container>
+
+
+    <button md-button (click)="cancel()">
+        <md-icon mat-grid-avatar>cancel</md-icon>
+        Cancel
+    </button>
+    <button md-button type="submit" >
+        <md-icon mat-grid-avatar>delete</md-icon>
+        Delete
+    </button>
+</form>

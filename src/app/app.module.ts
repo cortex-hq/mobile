@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 
 import { AsyncLocalStorageModule } from 'angular-async-local-storage';
 
@@ -26,6 +27,13 @@ import { AboutComponent } from './about/about.component';
 import { BalanceTestComponent } from './tests/balance-test/balance-test.component';
 import { GenericTestComponent } from './tests/generic-test/generic-test.component';
 
+import { CrudRouteModule } from './crud/crud.routes';
+
+import { SportallComponent } from './crud/sport/sport-all.component';
+import { SportcreateComponent } from './crud/sport/sport-create.component';
+import { SportupdateComponent } from './crud/sport/sport-update.component';
+import { SportdeleteComponent } from './crud/sport/sport-delete.component';
+
 import 'hammerjs';
 import 'gyronorm';
 
@@ -42,10 +50,18 @@ import 'gyronorm';
     TestListComponent,
     TestDetailsComponent,
     BalanceTestComponent,
-    GenericTestComponent
+    GenericTestComponent,
+
+
+    // CRUD
+    SportallComponent,
+    SportcreateComponent,
+    SportdeleteComponent,
+    SportupdateComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AsyncLocalStorageModule,
     ReactiveFormsModule,
     HttpModule,
@@ -55,7 +71,9 @@ import 'gyronorm';
     ApplicationInsightsModule.forRoot({
       instrumentationKey: '896f5703-d4b5-4878-bb4b-979550d36b8f',
       accountId: 'Cortex'
-    })
+    }),
+
+    CrudRouteModule
   ],
   providers: [
     TestService
